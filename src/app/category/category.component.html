@@ -1,0 +1,66 @@
+<div class="row justify-content-center md-3">
+  <div class="col-md-4 text-center">
+    <h1>وظایف - TODOS</h1>
+    <p class="text-info">
+       اینجا میتونید دسته بندی رو اضافه و مدیریت کنید
+    </p>
+  </div>
+</div>
+ 
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-inline" #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <div class="row">
+        <div class="col-md-10 form-group">
+          <input
+            type="text"
+            placeholder="دسته بندی کارهای خودتون رو اینجا اضاف کنید..."
+            name="categoryName"
+            class="form-control drop-shadow"
+            ngModel
+            required
+            (drop)="onDrop($event)"
+            (dragover)="onDragOver($event)"
+            [(ngModel)]="categoryName"
+          />
+        </div>
+        <div class="col-md-2">
+          <button
+            type="submit"
+            class="btn btn-primary col-md-2 btn-todo btn-block drop-shadow"
+            [disabled]="form.invalid"
+          >
+            {{isAddOrEdit == true ? "افزودن" : "ویرایش"}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+  <div class="row categories-list">
+
+    <div class="col-md-3" *ngFor="let category of categories" draggable="true" (dragstart)="onDragStart($event,category.id,category.category)">
+      <div class="card drop-shadow" [style.border-left-color]="category.categoryColor">
+        <div class="card-body">
+          <div class="clearfix">
+            <div class="float-left">
+            </div>
+            <div class="float-right cat-tools">
+              <small (click)="ondeleteCategory(category.id!)"><i class="fas fa-trash text-danger" ></i></small>
+            </div>
+          </div>
+  
+          <div class="todo-content" [routerLink]="['todo',category.id]" >
+            <h3 [style.Color]="category.categoryColor">{{category.category}}</h3>
+          </div>
+          <span class="badge badge-danger">{{category.todoCount}} - Todos</span>
+  
+        </div>
+      </div>
+    </div>
+  
+    
+  </div>
+  
